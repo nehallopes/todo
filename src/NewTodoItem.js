@@ -31,10 +31,16 @@ export default function NewTodoItem({ user }) {
     setTodos(updatedTodos);
   };
 
+  const handleDeleteTodo = (todoId) => {
+    const updatedTodos = todos.filter((todo) => todo.id !== todoId);
+    setTodos(updatedTodos);
+  };
+
   return (
     <div>
       <CreateTodo onAddTodo={handleAddTodo} user={user} />
-      <TodoList todos={todos} handleCompleteToggle={handleCompleteToggle} />
+      <TodoList todos={todos} handleCompleteToggle={handleCompleteToggle} handleDeleteTodo={handleDeleteTodo}
+/>
     </div>
   );
 }

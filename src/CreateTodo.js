@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
 export function CreateTodo({ onAddTodo, user }) {
+
   const [title, setTitle] = useState('');
+  
   const [description, setDescription] = useState('');
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
 
     if (title.trim() === '') {
       return;

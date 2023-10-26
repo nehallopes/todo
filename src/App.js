@@ -1,35 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import UserBar from './UserBar';
-import Logout from './Logout';
 import NewTodoItem from './NewTodoItem';
+import { userReducer,todoReducer } from './Reducer';
+
 
 function App() {
-  const [user, setUser] = useState(null);
-  const [todos, setTodos] = useState([]);
+  
   const [addedTodos, setAddedTodos] = useState([]);
 
+  const [user, dispatchUser] = useReducer(userReducer, "");
+
+  const [dispatchTodo] = useReducer(todoReducer, []);
+
   const handleLogin = (loggedInUser) => {
-    setUser(loggedInUser);
+    dispatchUser(loggedInUser);
   };
 
   const handleLogout = () => {
-    setUser(null);
+    dispatchUser(null);
   };
 
   const addTodo = (newTodo) => {
-    setTodos([...todos, newTodo]);
+    dispatchTodo({type:"CREATE_TODO", ...newTodo});
     setAddedTodos([...addedTodos, newTodo]);
   };
 
   return (
     <div>
-      <UserBar user={user} onLogin={handleLogin} onLogout={handleLogout} />
+      <UserBar user={user} dispatchUser={dispatchUser} onLogin={handleLogin} onLogout={handleLogout} />
       {user ? (
         <>
-          <Logout user={user} setUser={handleLogout} />
           <NewTodoItem onAddTodo={addTodo} user={user} />
           <div>
-            <h2>Added Todos:</h2>
             <ul>
               {addedTodos.map((todo) => (
                 <li key={todo.id}>
