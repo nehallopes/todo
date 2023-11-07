@@ -30,7 +30,7 @@ export default function Login({dispatchUser}) {
 
     return (
       <div>
-        {loginFailed && (<span style={{ color: "red" }}>Invalid username or password</span>)}
+        {loginFailed && (<span style={{ color: "red" }}>Invalid username or password!</span>)}
         <form onSubmit={(e) => { e.preventDefault(); dispatchUser({type: 'LOGIN', username}); }}>
             <label htmlFor="login-username">Username:</label>
             <input type="text" name="login-username" id="login-username" value={username} onChange={handleUsername} />
