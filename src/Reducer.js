@@ -1,4 +1,4 @@
-export const userReducer = (state, action) => {
+function userReducer  (state, action)  {
     switch (action.type) {
       case "LOGIN":
       case "REGISTER":
@@ -10,7 +10,7 @@ export const userReducer = (state, action) => {
     }
   }
 
-  export const todoReducer = (state, action) => {
+  function todoReducer (state, action)  {
 
     switch (action.type) {
       case "CREATE_TODO":
@@ -42,4 +42,11 @@ export const userReducer = (state, action) => {
       default:
         return state;
     }
+  }
+
+  export default function appReducer(state, action) {
+    return {
+      user: userReducer(state.user, action),
+      posts: todoReducer(state.posts, action),
+    };
   }

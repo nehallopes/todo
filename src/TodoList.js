@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react'
+import { ThemeContext } from './contexts'
 
-export function TodoList({ todos, handleCompleteToggle }) {
+export function TodoList({ todos, handleCompleteToggle, handleDeleteTodo }) {
+
+  const { secondaryColor } = useContext(ThemeContext);
+
   return (
     <div>
-      <h3>Todo List:</h3>
+      <h3 style={{ color: secondaryColor }}>Todo List:</h3>
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
@@ -20,6 +24,7 @@ export function TodoList({ todos, handleCompleteToggle }) {
                 onChange={() => handleCompleteToggle(todo.id)}
               />
             </label>
+            <button onClick={() => handleDeleteTodo(todo.id)}>Delete</button>
             {todo.complete && (
               <div>
                 <strong>Date Completed:</strong> {todo.dateCompleted}<br />

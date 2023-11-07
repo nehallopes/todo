@@ -1,18 +1,32 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useResource } from "react-request-hook";
 
 export default function Register({dispatchUser}) {
 
-    const [ username, dispatchname ] = useState('')
+    const [ username, setUsername ] = useState('')
 
     const [ password, setPassword ] = useState('')
 
     const [ passwordRepeat, setPasswordRepeat ] = useState('')
-    function handleUsername (evt) { dispatchname(evt.target.value) }
+
+    const [user, register] = useResource((username, password) => ({
+        url: "/users",
+        method: "post",
+        data: { email: username, password },
+      }));
+    
+      useEffect(() => {
+        if (user && user.data) {
+          dispatchUser({ type: "REGISTER", username: user.data.user.email });
+        }
+      }, [user, dispatchUser]);
+      
+    function handleUsername (evt) { setUsername(evt.target.value) }
     function handlePassword (evt) { setPassword(evt.target.value) }
     function handlePasswordRepeat (evt) { setPasswordRepeat(evt.target.value) }
 
     return (
-        <form onSubmit={e => { e.preventDefault(); dispatchUser({type: 'REGISTER', username}) }}>
+        <form onSubmit={e => { e.preventDefault(); register(username, password); dispatchUser({type: 'REGISTER', username}) }}>
             <label htmlFor="register-username">Username:</label>
             <input type="text" name="register-username" id="register-username" onChange={handleUsername} value={username}/>
             <label htmlFor="register-password">Password:</label>
